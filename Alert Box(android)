@@ -1,0 +1,174 @@
+package in.readersbest.www.alertbox;
+
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+    Button b1;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        b1 = (Button)findViewById(R.id.alert);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert();
+            }
+        });
+    }
+
+
+    public void alert(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Click the message below");
+        builder.setTitle("AlertBox");
+        builder.setCancelable(true);
+        builder.setPositiveButton("yes",new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                newAlert();
+            }
+        });
+        builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                newSpinner();
+            }
+        });
+        builder.show();
+    }
+
+
+
+    public void newAlert(){
+        AlertDialog.Builder newBuilder = new AlertDialog.Builder(MainActivity.this);
+        newBuilder.setTitle("Within AlertBox");
+        newBuilder.setMessage("Yup or Nope or Neutral..!");
+        newBuilder.setCancelable(true);
+        newBuilder.setPositiveButton("Radio",new DialogInterface.OnClickListener(){
+           @Override
+           public void onClick(DialogInterface dialog, int which) {
+               levelDialog();
+           }
+        });
+        newBuilder.setNegativeButton("Check", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                checkBox();
+            }
+        });
+        newBuilder.setNeutralButton("List", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                listBox();
+            }
+        });
+        newBuilder.show();
+    }
+
+
+
+    public void levelDialog(){
+        AlertDialog levelDialog;
+        // Strings to Show In Dialog with Radio Buttons
+        final CharSequence[] items = {" Easy "," Medium "," Hard "," Very Hard "};
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select The Difficulty Level");
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                switch(item)
+                {
+                    case 0:
+                        Toast.makeText(getApplicationContext(), "You clicked easy", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(getApplicationContext(), "You clicked medium", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(getApplicationContext(), "You clicked hard", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        Toast.makeText(getApplicationContext(), "You clicked very hard", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        levelDialog = builder.create();
+        levelDialog.show();
+
+    }
+
+
+    public void newSpinner(){
+        String[] daysOfWeek = {"Sunday","Monday","Tuesday"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item,daysOfWeek);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner sItems = (Spinner) findViewById(R.id.myspinner);    
+        sItems.setAdapter(adapter);
+    }
+
+
+    public void checkBox(){
+        CharSequence[] levels = {"Easy","Medium","Hard"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select the difficulty level");
+        builder.setMultiChoiceItems(levels,null,new DialogInterface.OnMultiChoiceClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                switch (which){
+                    case 0:
+                        Toast.makeText(getApplicationContext(), "You clicked easy", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(getApplicationContext(), "You clicked medium", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(getApplicationContext(), "You clicked hard", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+
+    public void listBox(){
+        CharSequence[] levels = {"Easy","Medium","Hard"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select the difficulty level");
+        builder.setItems(levels, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case 0:
+                        Toast.makeText(getApplicationContext(), "You clicked easy", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(getApplicationContext(), "You clicked medium", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(getApplicationContext(), "You clicked hard", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        } );
+        builder.show();
+    }
+
+}
